@@ -1,4 +1,4 @@
 streamlit
 qrcode
 numpy
-zxing
+opencv python
