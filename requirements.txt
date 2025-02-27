@@ -1,5 +1,5 @@
 streamlit
-numpy
+qrcode
 opencv-python
 pillow
-qrcode
+numpy
