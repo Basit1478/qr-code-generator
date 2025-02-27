@@ -2,7 +2,6 @@ import streamlit as st
 import qrcode
 from io import BytesIO
 from PIL import Image
-import cv2
 import numpy as np
 
 def generate_qr(data):
@@ -12,11 +11,14 @@ def generate_qr(data):
     return img_bytes.getvalue()
 
 def decode_qr(image):
-    image = np.array(image.convert('RGB'))
-    gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
-    detector = cv2.QRCodeDetector()
-    data, _, _ = detector.detectAndDecode(gray)
-    return data
+    try:
+        import zxing
+        reader = zxing.BarCodeReader()
+        image.save("temp_qr.png")
+        barcode = reader.decode("temp_qr.png")
+        return barcode.raw if barcode else None
+    except ImportError:
+        return "QR code decoding requires 'zxing'. Install it with 'pip install zxing'."
 
 st.title("QR Code Generator & Scanner")
 
