@@ -2,8 +2,7 @@ import streamlit as st
 import qrcode
 from io import BytesIO
 from PIL import Image
-import cv2
-import numpy as np
+import pyzbar.pyzbar as pyzbar
 
 def generate_qr(data):
     qr = qrcode.make(data)
@@ -12,11 +11,8 @@ def generate_qr(data):
     return img_bytes.getvalue()
 
 def decode_qr(image):
-    image = np.array(image.convert('RGB'))
-    gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
-    detector = cv2.QRCodeDetector()
-    data, _, _ = detector.detectAndDecode(gray)
-    return data
+    decoded_objects = pyzbar.decode(image)
+    return decoded_objects[0].data.decode('utf-8') if decoded_objects else "No QR code found."
 
 st.title("QR Code Generator & Scanner")
 
