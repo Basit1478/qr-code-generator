@@ -1,6 +1,5 @@
 streamlit
 numpy
-opencv-python
 pillow
 qrcode
-zxing
+pyzbar
